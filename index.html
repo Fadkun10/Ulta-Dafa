@@ -125,8 +125,21 @@
       white-space: nowrap;
     }
     .toast.show { opacity: 1; transform: translate(-50%, 0); }
-    .whatsapp {
+    .whatsapp-container {
       position: fixed; z-index: 8; right: max(20px, env(safe-area-inset-right)); bottom: max(20px, env(safe-area-inset-bottom));
+      display: flex; align-items: center; gap: 10px; pointer-events: none;
+    }
+    .whatsapp-arrow {
+      color: #20c766; font-size: 1.25rem; font-weight: 900; line-height: 1;
+      animation: pulseArrow 1.5s ease-in-out infinite; pointer-events: none;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+    @keyframes pulseArrow {
+      0%, 100% { transform: translateX(0); opacity: 0.7; }
+      50% { transform: translateX(-6px); opacity: 1; }
+    }
+    .whatsapp {
+      pointer-events: auto;
       width: 56px; height: 56px; display: grid; place-items: center; border-radius: 50%;
       color: white; background: #20c766; box-shadow: 0 8px 24px rgba(0,0,0,.3);
       transition: transform .2s, box-shadow .2s;
@@ -190,13 +203,16 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite">Kode berhasil disalin!</div>
 
-  <a class="whatsapp"
-     href="https://wa.me/6285135668211?text=Ya%20terserah%20amu%20mao%20masuk%20grup%20pake%20no%20mana%2C%20pokok%20Grupnya%20ini%3A%0Ahttps%3A%2F%2Fchat.whatsapp.com%2FFs7x7zUL3TjFPonPh5MtAW%3Fs%3Dcl%26p%3Da%26iam%3D2%0A%0ADi%20sini%20ada%20tanggal%20kapan%20grup%20ini%20di%20buat%2C%20makanya%20aku%20gk%20mau%20pindah%2C%20ada%20sejarahnya%20di%20sini"
-     target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-    <svg viewBox="0 0 32 32" aria-hidden="true">
-      <path d="M16.02 3.2A12.72 12.72 0 0 0 5.1 22.45L3.3 28.8l6.5-1.7A12.8 12.8 0 1 0 16.02 3.2Zm0 23.3c-2 0-3.95-.54-5.65-1.57l-.4-.24-3.86 1.01 1.03-3.76-.26-.42a10.53 10.53 0 1 1 9.14 4.98Zm5.78-7.9c-.32-.16-1.9-.94-2.2-1.05-.3-.11-.52-.16-.74.16-.22.33-.84 1.05-1.03 1.27-.19.22-.38.25-.7.08-.33-.16-1.38-.51-2.62-1.62-.97-.86-1.63-1.92-1.82-2.25-.19-.33-.02-.5.14-.66.15-.14.33-.38.49-.57.16-.19.22-.33.33-.55.1-.22.05-.41-.03-.57-.08-.16-.74-1.78-1.02-2.44-.27-.64-.55-.55-.74-.56h-.63c-.22 0-.57.08-.87.41-.3.33-1.14 1.11-1.14 2.71s1.17 3.14 1.33 3.36c.16.22 2.3 3.51 5.57 4.92.78.34 1.39.55 1.86.7.78.25 1.49.21 2.05.13.63-.09 1.9-.78 2.17-1.54.27-.76.27-1.41.19-1.54-.08-.14-.3-.22-.63-.38Z"/>
-    </svg>
-  </a>
+  <div class="whatsapp-container">
+    <div class="whatsapp-arrow" aria-hidden="true">◀</div>
+    <a class="whatsapp"
+       href="https://wa.me/6285135668211?text=Ya%20terserah%20amu%20mao%20masuk%20grup%20pake%20no%20mana%2C%20pokok%20Grupnya%20ini%3A%0Ahttps%3A%2F%2Fchat.whatsapp.com%2FFs7x7zUL3TjFPonPh5MtAW%3Fs%3Dcl%26p%3Da%26iam%3D2%0A%0ADi%20sini%20ada%20tanggal%20kapan%20grup%20ini%20di%20buat%2C%20makanya%20aku%20gk%20mau%20pindah%2C%20ada%20sejarahnya%20di%20sini"
+       target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M16.02 3.2A12.72 12.72 0 0 0 5.1 22.45L3.3 28.8l6.5-1.7A12.8 12.8 0 1 0 16.02 3.2Zm0 23.3c-2 0-3.95-.54-5.65-1.57l-.4-.24-3.86 1.01 1.03-3.76-.26-.42a10.53 10.53 0 1 1 9.14 4.98Zm5.78-7.9c-.32-.16-1.9-.94-2.2-1.05-.3-.11-.52-.16-.74.16-.22.33-.84 1.05-1.03 1.27-.19.22-.38.25-.7.08-.33-.16-1.38-.51-2.62-1.62-.97-.86-1.63-1.92-1.82-2.25-.19-.33-.02-.5.14-.66.15-.14.33-.38.49-.57.16-.19.22-.33.33-.55.1-.22.05-.41-.03-.57-.08-.16-.74-1.78-1.02-2.44-.27-.64-.55-.55-.74-.56h-.63c-.22 0-.57.08-.87.41-.3.33-1.14 1.11-1.14 2.71s1.17 3.14 1.33 3.36c.16.22 2.3 3.51 5.57 4.92.78.34 1.39.55 1.86.7.78.25 1.49.21 2.05.13.63-.09 1.9-.78 2.17-1.54.27-.76.27-1.41.19-1.54-.08-.14-.3-.22-.63-.38Z"/>
+      </svg>
+    </a>
+  </div>
 
   <script>
     (() => {
@@ -265,8 +281,6 @@
       }
 
       async function copyCode() {
-        // Open synchronously in the click gesture so popup blockers are less likely to stop it.
-        const redeemTab = window.open(ROBLOX_REDEEM, '_blank', 'noopener,noreferrer');
         let copied = false;
 
         try {
@@ -294,23 +308,18 @@
 
         if (copied) {
           showToast('Kode berhasil disalin!');
+          // Jeda 2 detik setelah berhasil disalin, baru buka Roblox di tab baru
+          setTimeout(() => {
+            window.open(ROBLOX_REDEEM, '_blank', 'noopener,noreferrer');
+          }, 2000);
         } else {
-          showToast('Salin manual: ' + CODE);
-          // Keep the code selected as a final manual-copy fallback.
+          // Jika gagal, berikan pemberitahuan dan alternatif penyalinan manual tanpa membuka Roblox
+          showToast('Gagal menyalin! Silakan salin manual: ' + CODE);
           const range = document.createRange();
           range.selectNodeContents(giftCode.querySelector('span'));
           const selection = window.getSelection();
           selection.removeAllRanges();
           selection.addRange(range);
-        }
-
-        if (!redeemTab) {
-          // Popup blocked: preserve the surprise page and provide a direct fallback.
-          const link = document.createElement('a');
-          link.href = ROBLOX_REDEEM;
-          link.target = '_blank';
-          link.rel = 'noopener noreferrer';
-          link.click();
         }
       }
 
