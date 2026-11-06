@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10152f">
+  <title>Birthday Surprise — Akhmad Dafa Zein</title>
+  <style>
+    :root {
+      --navy: #10152f;
+      --purple: #5e4ba8;
+      --lavender: #a99bea;
+      --gold: #ffd889;
+      --white: #f8f7ff;
+      --muted: #c7c4dc;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; min-height: 100vh; overflow-x: hidden;
+      color: var(--white);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(100, 78, 173, .34), transparent 32rem),
+        radial-gradient(circle at 85% 80%, rgba(40, 91, 151, .28), transparent 34rem),
+        linear-gradient(135deg, #0b1025, #171936 55%, #111b38);
+    }
+    button { font: inherit; }
+    .scene {
+      position: relative; min-height: 100svh; display: grid; place-items: center;
+      padding: 42px 20px; isolation: isolate;
+    }
+    .stars, .confetti-layer { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: -1; }
+    .star {
+      position: absolute; width: 3px; height: 3px; border-radius: 50%;
+      background: #fff; opacity: .65; box-shadow: 0 0 10px 2px rgba(255,255,255,.5);
+      animation: twinkle var(--duration, 3s) ease-in-out infinite alternate;
+    }
+    @keyframes twinkle { from { opacity: .18; transform: scale(.7); } to { opacity: .9; transform: scale(1.35); } }
+    .intro {
+      width: min(100%, 760px); text-align: center; padding: 24px 12px 34px;
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 9px; color: var(--gold);
+      letter-spacing: .24em; text-transform: uppercase; font-size: .72rem; font-weight: 700;
+    }
+    .eyebrow::before, .eyebrow::after { content: ""; width: 26px; height: 1px; background: currentColor; opacity: .65; }
+    h1 {
+      margin: 18px 0 8px; font-size: clamp(2.5rem, 8vw, 5.6rem); line-height: .98;
+      letter-spacing: -.055em; font-weight: 850;
+      background: linear-gradient(110deg, #fff 15%, #d8d0ff 48%, #ffd889 85%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      text-shadow: 0 12px 45px rgba(141, 119, 220, .12);
+    }
+    .recipient { color: #e4defe; font-size: clamp(1rem, 3vw, 1.35rem); letter-spacing: .06em; margin: 0 0 28px; }
+    .gift-stage { width: 220px; height: 205px; margin: 0 auto 28px; position: relative; display: grid; place-items: end center; }
+    .gift {
+      position: relative; width: 154px; height: 112px; cursor: default;
+      filter: drop-shadow(0 22px 22px rgba(0,0,0,.32));
+      animation: float 3.4s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-9px) rotate(1deg); } }
+    .gift-box {
+      position: absolute; bottom: 0; left: 0; width: 154px; height: 91px; border-radius: 9px 9px 13px 13px;
+      background: linear-gradient(135deg, #8875db, #5c4ba8 70%); border: 1px solid rgba(255,255,255,.25);
+    }
+    .gift-box::before { content: ""; position: absolute; left: 62px; top: 0; width: 29px; height: 100%; background: linear-gradient(90deg,#f9d58b,#ffe7b2,#d9a84d); }
+    .gift-lid {
+      position: absolute; z-index: 2; left: -8px; top: 8px; width: 170px; height: 27px; border-radius: 7px;
+      background: linear-gradient(135deg, #b5a5ff, #8170d2); border: 1px solid rgba(255,255,255,.35);
+      transform-origin: 12px 23px; transition: transform .85s cubic-bezier(.2,.8,.2,1), top .85s;
+    }
+    .gift-lid::before { content: ""; position: absolute; left: 78px; top: 0; width: 19px; height: 100%; background: #f9d58b; }
+    .ribbon-loop {
+      position: absolute; z-index: 3; top: -18px; left: 59px; width: 39px; height: 31px;
+      border: 8px solid #f9d58b; border-radius: 50% 50% 8px 50%; transform: rotate(20deg);
+    }
+    .ribbon-loop::after { content: ""; position: absolute; width: 39px; height: 31px; border: 8px solid #f9d58b; border-radius: 50% 50% 50% 8px; left: 18px; top: -8px; transform: rotate(-42deg); }
+    .gift.open .gift-lid { transform: translate(-20px,-65px) rotate(-27deg); }
+    .gift.open { animation: none; }
+    .gift-glow {
+      position: absolute; width: 190px; height: 190px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,220,151,.24), transparent 68%); bottom: -8px;
+    }
+    .open-btn {
+      border: 0; border-radius: 999px; padding: 15px 30px; color: #272044; font-weight: 800;
+      background: linear-gradient(110deg, #ffe5ad, #f6c96f); cursor: pointer;
+      box-shadow: 0 9px 30px rgba(246,201,111,.2); transition: transform .2s, box-shadow .2s;
+    }
+    .open-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(246,201,111,.32); }
+    .open-btn:focus-visible, .gift-code:focus-visible, .whatsapp:focus-visible { outline: 3px solid white; outline-offset: 4px; }
+    .hint { color: #aaa8c6; font-size: .83rem; margin-top: 17px; }
+    .message-wrap {
+      display: none; width: min(100%, 700px); margin: 0 auto; opacity: 0; transform: translateY(22px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+    .message-wrap.show { display: block; }
+    .message-wrap.visible { opacity: 1; transform: translateY(0); }
+    .message-card {
+      position: relative; padding: clamp(25px, 6vw, 48px); border-radius: 25px;
+      background: linear-gradient(145deg, rgba(255,255,255,.12), rgba(255,255,255,.055));
+      border: 1px solid rgba(255,255,255,.2); box-shadow: 0 25px 80px rgba(0,0,0,.25);
+      backdrop-filter: blur(18px);
+    }
+    .message-card::before { content: "✦"; position: absolute; top: 19px; right: 24px; color: var(--gold); font-size: 1.2rem; opacity: .8; }
+    .message-card h2 { margin: 0 0 24px; color: #ffe2a7; font-size: clamp(1.45rem, 4vw, 2rem); letter-spacing: -.025em; }
+    .message-copy { color: #eeecfb; font-size: clamp(.98rem, 2.3vw, 1.08rem); line-height: 1.85; }
+    .message-copy p { margin: 0 0 17px; }
+    .message-copy p:last-of-type { margin-bottom: 14px; }
+    .gift-code {
+      display: inline-flex; align-items: center; gap: 11px; margin-top: 4px; padding: 13px 17px;
+      border: 1px solid rgba(255,216,137,.5); border-radius: 12px;
+      color: #ffe0a0; background: rgba(255,216,137,.09); font-weight: 800;
+      letter-spacing: .075em; font-size: clamp(.95rem, 3vw, 1.12rem);
+      cursor: pointer; transition: background .2s, transform .2s, box-shadow .2s;
+    }
+    .gift-code:hover { background: rgba(255,216,137,.18); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255,216,137,.12); }
+    .gift-code .copy-mark { font-size: .82rem; opacity: .8; letter-spacing: 0; }
+    .toast {
+      position: fixed; left: 50%; bottom: 28px; z-index: 10; transform: translate(-50%, 20px);
+      opacity: 0; pointer-events: none; padding: 11px 17px; border-radius: 999px;
+      color: #17203b; background: #f8e4b8; box-shadow: 0 8px 30px rgba(0,0,0,.25);
+      font-size: .88rem; font-weight: 750; transition: opacity .25s, transform .25s;
+      white-space: nowrap;
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .whatsapp {
+      position: fixed; z-index: 8; right: max(20px, env(safe-area-inset-right)); bottom: max(20px, env(safe-area-inset-bottom));
+      width: 56px; height: 56px; display: grid; place-items: center; border-radius: 50%;
+      color: white; background: #20c766; box-shadow: 0 8px 24px rgba(0,0,0,.3);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .whatsapp:hover { transform: translateY(-4px) scale(1.04); box-shadow: 0 12px 30px rgba(32,199,102,.3); }
+    .whatsapp svg { width: 29px; height: 29px; fill: currentColor; }
+    .confetti {
+      position: fixed; top: -15px; z-index: 9; width: 9px; height: 13px; opacity: .95;
+      pointer-events: none; animation: fall var(--fall-time, 3s) linear forwards;
+    }
+    @keyframes fall { to { transform: translate3d(var(--drift), 110vh, 0) rotate(780deg); opacity: .2; } }
+    .intro.hide { opacity: 0; transform: translateY(-18px) scale(.97); pointer-events: none; }
+    @media (max-width: 520px) {
+      .scene { padding: 28px 16px 96px; }
+      .gift-stage { transform: scale(.9); margin-bottom: 15px; }
+      .message-card { border-radius: 20px; }
+      .whatsapp { width: 52px; height: 52px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="stars" id="stars" aria-hidden="true"></div>
+  <div class="scene">
+    <main class="intro" id="intro">
+      <div class="eyebrow">A little surprise for you</div>
+      <h1>HAPPY<br>BIRTHDAY!</h1>
+      <p class="recipient">Akhmad Dafa Zein</p>
+
+      <div class="gift-stage" aria-hidden="true">
+        <div class="gift-glow"></div>
+        <div class="gift" id="gift">
+          <div class="gift-lid"></div>
+          <div class="ribbon-loop"></div>
+          <div class="gift-box"></div>
+        </div>
+      </div>
+
+      <button class="open-btn" id="openBtn" type="button">Buka Kejutan <span aria-hidden="true">✦</span></button>
+      <div class="hint">Ada sesuatu kecil yang menunggumu</div>
+    </main>
+
+    <section class="message-wrap" id="message" aria-live="polite">
+      <article class="message-card">
+        <h2>Hallo Akhmad Dafa Zein</h2>
+        <div class="message-copy">
+          <p>Selamat nambah tua wkwk udah kepala 2 wee...</p>
+          <p>Ya makasih udh jadi tmn baik, bisa seru"an mabar<br>
+          Kadang tingkahmu suka bikin jengkel wkwk, tapi justru dari hal-hal kecil kayak gitu aku jadi bisa lebih mengenalmu. Dan yang paling penting, makasih banget karena udah mau berteman sama aku</p>
+          <p>Btw nih hadiahnya wkwk</p>
+        </div>
+        <button class="gift-code" id="giftCode" type="button" aria-label="Salin kode hadiah Roblox">
+          <span>8XQY2-CH5T7-5AFWP</span>
+          <span class="copy-mark" aria-hidden="true">▢</span>
+        </button>
+      </article>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Kode berhasil disalin!</div>
+
+  <a class="whatsapp"
+     href="https://wa.me/6285135668211?text=Ya%20terserah%20amu%20mao%20masuk%20grup%20pake%20no%20mana%2C%20pokok%20Grupnya%20ini%3A%0Ahttps%3A%2F%2Fchat.whatsapp.com%2FFs7x7zUL3TjFPonPh5MtAW%3Fs%3Dcl%26p%3Da%26iam%3D2%0A%0ADi%20sini%20ada%20tanggal%20kapan%20grup%20ini%20di%20buat%2C%20makanya%20aku%20gk%20mau%20pindah%2C%20ada%20sejarahnya%20di%20sini"
+     target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M16.02 3.2A12.72 12.72 0 0 0 5.1 22.45L3.3 28.8l6.5-1.7A12.8 12.8 0 1 0 16.02 3.2Zm0 23.3c-2 0-3.95-.54-5.65-1.57l-.4-.24-3.86 1.01 1.03-3.76-.26-.42a10.53 10.53 0 1 1 9.14 4.98Zm5.78-7.9c-.32-.16-1.9-.94-2.2-1.05-.3-.11-.52-.16-.74.16-.22.33-.84 1.05-1.03 1.27-.19.22-.38.25-.7.08-.33-.16-1.38-.51-2.62-1.62-.97-.86-1.63-1.92-1.82-2.25-.19-.33-.02-.5.14-.66.15-.14.33-.38.49-.57.16-.19.22-.33.33-.55.1-.22.05-.41-.03-.57-.08-.16-.74-1.78-1.02-2.44-.27-.64-.55-.55-.74-.56h-.63c-.22 0-.57.08-.87.41-.3.33-1.14 1.11-1.14 2.71s1.17 3.14 1.33 3.36c.16.22 2.3 3.51 5.57 4.92.78.34 1.39.55 1.86.7.78.25 1.49.21 2.05.13.63-.09 1.9-.78 2.17-1.54.27-.76.27-1.41.19-1.54-.08-.14-.3-.22-.63-.38Z"/>
+    </svg>
+  </a>
+
+  <script>
+    (() => {
+      const intro = document.getElementById('intro');
+      const message = document.getElementById('message');
+      const gift = document.getElementById('gift');
+      const openBtn = document.getElementById('openBtn');
+      const giftCode = document.getElementById('giftCode');
+      const toast = document.getElementById('toast');
+      const CODE = '8XQY2-CH5T7-5AFWP';
+      const ROBLOX_REDEEM = 'https://www.roblox.com/id/redeem';
+      let opened = false;
+      let toastTimer;
+
+      // Decorative star field
+      const starField = document.getElementById('stars');
+      for (let i = 0; i < 75; i++) {
+        const star = document.createElement('i');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.setProperty('--duration', (2 + Math.random() * 4) + 's');
+        star.style.animationDelay = (Math.random() * 4) + 's';
+        starField.appendChild(star);
+      }
+
+      function launchConfetti(amount = 115) {
+        const colors = ['#ffe0a0', '#a99bea', '#f8f7ff', '#83c5e8', '#e99bb7', '#8ed6b0'];
+        for (let i = 0; i < amount; i++) {
+          const piece = document.createElement('i');
+          piece.className = 'confetti';
+          piece.style.left = Math.random() * 100 + 'vw';
+          piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+          piece.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
+          piece.style.setProperty('--drift', (Math.random() * 240 - 120) + 'px');
+          piece.style.setProperty('--fall-time', (2.4 + Math.random() * 2.2) + 's');
+          piece.style.animationDelay = (Math.random() * .7) + 's';
+          document.body.appendChild(piece);
+          piece.addEventListener('animationend', () => piece.remove(), { once: true });
+        }
+      }
+
+      openBtn.addEventListener('click', () => {
+        if (opened) return;
+        opened = true;
+        gift.classList.add('open');
+        openBtn.disabled = true;
+        openBtn.textContent = '✦';
+        launchConfetti();
+        window.setTimeout(() => {
+          intro.classList.add('hide');
+          window.setTimeout(() => {
+            intro.style.display = 'none';
+            message.classList.add('show');
+            requestAnimationFrame(() => message.classList.add('visible'));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }, 450);
+        }, 850);
+      });
+
+      function showToast(text) {
+        toast.textContent = text;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 2400);
+      }
+
+      async function copyCode() {
+        // Open synchronously in the click gesture so popup blockers are less likely to stop it.
+        const redeemTab = window.open(ROBLOX_REDEEM, '_blank', 'noopener,noreferrer');
+        let copied = false;
+
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(CODE);
+            copied = true;
+          }
+        } catch (_) {
+          copied = false;
+        }
+
+        if (!copied) {
+          const fallback = document.createElement('textarea');
+          fallback.value = CODE;
+          fallback.setAttribute('readonly', '');
+          fallback.style.position = 'fixed';
+          fallback.style.opacity = '0';
+          fallback.style.pointerEvents = 'none';
+          document.body.appendChild(fallback);
+          fallback.select();
+          fallback.setSelectionRange(0, fallback.value.length);
+          try { copied = document.execCommand('copy'); } catch (_) { copied = false; }
+          fallback.remove();
+        }
+
+        if (copied) {
+          showToast('Kode berhasil disalin!');
+        } else {
+          showToast('Salin manual: ' + CODE);
+          // Keep the code selected as a final manual-copy fallback.
+          const range = document.createRange();
+          range.selectNodeContents(giftCode.querySelector('span'));
+          const selection = window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
+
+        if (!redeemTab) {
+          // Popup blocked: preserve the surprise page and provide a direct fallback.
+          const link = document.createElement('a');
+          link.href = ROBLOX_REDEEM;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          link.click();
+        }
+      }
+
+      giftCode.addEventListener('click', copyCode);
+    })();
+  </script>
+</body>
+</html>
